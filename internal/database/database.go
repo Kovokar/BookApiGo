@@ -3,6 +3,7 @@ package database
 import (
 	"log"
 
+	"github.com/Kovokar/BookApiGo/internal/database/migrations"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -23,6 +24,8 @@ func StartDb() {
 	config.SetConnMaxLifetime(10)
 	config.SetMaxOpenConns(100)
 	config.SetMaxIdleConns(10)
+
+	migrations.RunMigrations(db)
 }
 
 func GetDatabase() *gorm.DB {
