@@ -12,6 +12,10 @@ func BooksRoutes(router *gin.RouterGroup) {
 		books.GET("/", controllers.GetBook)
 		books.GET("/:id", controllers.GetBookById)
 		books.POST("/", controllers.CreateBook)
+		books.POST("/bulk", controllers.CreateBooks)
+		books.PUT("/:id", controllers.EditBook)
+		books.DELETE("/:id", controllers.DeleteBook)
+
 		// books.POST("/", CreateBook)
 		// books.GET("/:id", GetBookByID)
 	}
