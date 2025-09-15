@@ -9,6 +9,7 @@ func ConfigureRoutes(router *gin.Engine) *gin.Engine {
 	{
 		BooksRoutes(main)
 		UserRoutes(main)
+		LoginRoutes(main)
 	}
 
 	return router
