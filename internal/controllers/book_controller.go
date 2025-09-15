@@ -64,3 +64,72 @@ func CreateBook(c *gin.Context) {
 
 	c.JSON(200, book)
 }
+
+func CreateBooks(c *gin.Context) {
+	db := database.GetDatabase()
+
+	var books []models.Book
+
+	err := c.ShouldBindJSON(&books)
+	if err != nil {
+		c.JSON(400, gin.H{"error": "Cannot bind JSON array: " + err.Error()})
+		return
+	}
+
+	err = db.Create(&books).Error
+	if err != nil {
+		c.JSON(400, gin.H{"error": "Cannot create Books: " + err.Error()})
+		return
+	}
+
+	c.JSON(200, books)
+}
+
+func DeleteBook(c *gin.Context) {
+	id := c.Param("id")
+	newid, err := strconv.Atoi(id)
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "ID has to be integer",
+		})
+		return
+	}
+
+	db := database.GetDatabase()
+
+	err = db.Delete(&models.Book{}, newid).Error
+
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "cannot delete book: " + err.Error(),
+		})
+		return
+	}
+
+	c.Status(204)
+}
+
+func EditBook(c *gin.Context) {
+	db := database.GetDatabase()
+
+	var b models.Book
+
+	err := c.ShouldBindJSON(&b)
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "cannot bind JSON: " + err.Error(),
+		})
+		return
+	}
+
+	err = db.Save(&b).Error
+	if err != nil {
+		c.JSON(400, gin.H{
+			"error": "cannot create book: " + err.Error(),
+		})
+		return
+	}
+
+	c.JSON(200, b)
+}
