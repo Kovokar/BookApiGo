@@ -8,6 +8,7 @@ func ConfigureRoutes(router *gin.Engine) *gin.Engine {
 	main := router.Group("/api/v1")
 	{
 		BooksRoutes(main)
+		UserRoutes(main)
 	}
 
 	return router
